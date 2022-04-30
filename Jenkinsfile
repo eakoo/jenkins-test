@@ -37,9 +37,10 @@ pipeline{
 
         stage('Upload'){
             when {
-                expression {
+                environment name: 'uploadFile', value: true
+                /* expression {
                     uploadFile
-                }
+                } */
             }
             steps{
                 sshPublisher(
