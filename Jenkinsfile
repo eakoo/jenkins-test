@@ -8,16 +8,16 @@ pipeline{
     environment{
         branch = 'main'
         serverName = '192.168.0.102'
-        skipUploadFile = true
+        uploadFile = false
     }
 
     stages{
 
-        stage('Clone'){
+        /* stage('Clone'){
             steps{
                 git(changelog: true, url: "https://gitee.com/original-blackhole/jenkins-test.git", branch: branch)
             }
-        }
+        } */
 
         stage('Build'){
             steps{
@@ -28,7 +28,7 @@ pipeline{
         stage('Upload'){
             when {
                 expression {
-                    skipUploadFile
+                    !uploadFile
                 }
             }
             steps{
