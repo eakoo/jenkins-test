@@ -11,7 +11,7 @@ pipeline{
         uploadFile = false
     }
 
-    def sshPublisher(removePrefix, sourceFiles, execCommand){
+    def sshPublisher1(removePrefix, sourceFiles, execCommand){
         sshPublisher(
             failOnError: false,
             publishers: [
@@ -80,7 +80,7 @@ pipeline{
                 }
             }
             steps{
-                sshPublisher("target/deploy/", "target/deploy/*", "")
+                sshPublisher1("target/deploy/", "target/deploy/*", "")
                 /* sshPublisher(
                     failOnError: false,
                     publishers: [
