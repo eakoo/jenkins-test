@@ -45,7 +45,8 @@ pipeline{
         stage('Upload'){
             when {
                 expression {
-                   !uploadFile
+                   return  (uploadFile == “true”)
+//                    !uploadFile
                 }
             }
             steps{
