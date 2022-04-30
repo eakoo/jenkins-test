@@ -8,10 +8,26 @@ pipeline{
 
     environment{
         serverName = '192.168.0.102'
-        uploadFile = true
+        uploadFile = false
     }
 
     stages{
+
+        stage("Chose") {
+            steps {
+                timeout(time: 3, unit: 'SECONDS') {
+                    script {
+                        try {
+                            uploadFile = input message: 'update config?', ok: '确认',
+                            parameters: [booleanParam(name: 'uploadFile', defaultValue: false, description: 'Upload file?')]
+                        } catch (exc) {
+                            echo "select default"
+                        }
+                    }
+                }
+                echo "${uploadFile}"
+            }
+        }
 
         stage('Build'){
             steps{

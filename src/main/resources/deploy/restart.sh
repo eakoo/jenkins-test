@@ -22,5 +22,6 @@ IMAGE_IDS=$(sudo docker images | grep '''<none>''' | awk '{print $3}')
 if [ -n "$IMAGE_IDS" ] ;then
     echo 'remove images start ..'
     echo IMAGE_IDS
-    sudo docker rmi $(docker images -f "dangling=true" -q)
+    # shellcheck disable=SC2046
+    sudo docker rmi $(sudo docker images -f "dangling=true" -q)
 fi
