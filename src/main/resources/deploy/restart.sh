@@ -19,8 +19,8 @@ fi
 
 # 删除 NONE 镜像
 IMAGE_IDS=$(sudo docker images | grep '''<none>''' | awk '{print $3}')
-echo 'remove images start ..'
-echo IMAGE_IDS
 if [ -n "$IMAGE_IDS" ] ;then
-    sudo docker rmi "$IMAGE_IDS"
+    echo 'remove images start ..'
+    echo IMAGE_IDS
+    sudo docker rmi $(docker images -f "dangling=true" -q)
 fi
