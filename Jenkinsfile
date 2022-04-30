@@ -8,6 +8,7 @@ pipeline{
     environment{
         branch = 'dev'
         serverName = '192.168.0.102'
+        skipUploadFile = false
     }
 
     stages{
@@ -19,6 +20,11 @@ pipeline{
         }
 
         stage('Upload'){
+            when {
+                expression {
+                    skipUploadFile
+                }
+            }
             steps{
                 sshPublisher(
                     failOnError: false,
@@ -30,6 +36,8 @@ pipeline{
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
+                                        sh chmod +x build.sh
+                                        sh chmod +x restart.sh
                                     ''',
                                     execTimeout: 120000,
                                     flatten: false,
