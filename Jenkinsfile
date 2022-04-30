@@ -37,7 +37,7 @@ pipeline{
 
         stage('Upload'){
             when {
-                environment name: uploadFile, value: true
+                environment name: uploadFile, value: "true"
                 /* expression {
                     uploadFile
                 } */
