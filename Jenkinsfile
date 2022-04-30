@@ -24,11 +24,11 @@ pipeline{
                                     name: 'uploadFile',
                                     choices: ['skip', 'upload'],
                                     defaultValue: 'skip',
-                                    restrict: true,
+                                    restrict: true/* ,
                                     filterConfig: filterConfig(
                                       prefix: true,
                                       caseInsensitive: true,
-                                    ),
+                                    ), */
                                 )
                             ]
                         } catch (exc) {
