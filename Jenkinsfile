@@ -47,7 +47,6 @@ pipeline{
                 }
             }
             steps{
-//                 sshPublisher1("target/deploy/", "target/deploy/*", "")
                 sshPublisher(
                     failOnError: false,
                     publishers: [
