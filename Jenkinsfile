@@ -66,7 +66,7 @@ pipeline{
                                     remoteDirectory: "",
                                     remoteDirectorySDF: false,
                                     removePrefix: "target/deploy/",
-                                    sourceFiles: "target/deploy *"
+                                    sourceFiles: "target/deploy/*"
                                 )
                             ],
                             sshRetry: [
