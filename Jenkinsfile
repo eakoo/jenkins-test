@@ -22,7 +22,7 @@ pipeline{
         stage('Upload'){
             when {
                 expression {
-                    skipUploadFile
+                    !skipUploadFile
                 }
             }
             steps{
