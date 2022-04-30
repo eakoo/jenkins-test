@@ -8,7 +8,7 @@ pipeline{
 
     environment{
         serverName = '192.168.0.102'
-        uploadFile = 'do not upload'
+        uploadFile = 'skip'
     }
 
     stages{
@@ -19,7 +19,18 @@ pipeline{
                     script {
                         try {
                             uploadFile = input message: 'Upload file?', ok: '确认',
-                            parameters: [choice(name: 'uploadFile', choices: 'skip\upload', description: 'Upload file?')]
+                            parameters: [
+                                editableChoice(
+                                    name: 'uploadFile',
+                                    choices: ['skip', 'upload'],
+                                    defaultValue: 'skip',
+                                    restrict: true,
+                                    filterConfig: filterConfig(
+                                      prefix: true,
+                                      caseInsensitive: true,
+                                    ),
+                                )
+                            ]
                         } catch (exc) {
                             echo "select default"
                         }
