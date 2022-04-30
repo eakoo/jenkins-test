@@ -11,7 +11,7 @@ pipeline{
         uploadFile = false
     }
 
-    def sshPublisher1(removePrefix, sourceFiles, execCommand){
+    sshPublisher1(removePrefix, sourceFiles, execCommand){
         sshPublisher(
             failOnError: false,
             publishers: [
