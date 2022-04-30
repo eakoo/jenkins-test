@@ -18,7 +18,7 @@ if [ "$CONTAINER_STATUS" == 0 ];
 fi
 
 # 删除 NONE 镜像
-IMAGE_IDS=$(sudo docker images | grep"<none>" | awk '{print $3}')
+IMAGE_IDS=$(sudo docker images | grep'''<none>''' | awk '{print $3}')
 echo 'remove images start ..'
 echo IMAGE_IDS
 if [ -n "$IMAGE_IDS" ] ;then
