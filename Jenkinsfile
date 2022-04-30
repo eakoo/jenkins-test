@@ -7,9 +7,7 @@ pipeline{
     }
 
     environment{
-        branch = 'main'
         serverName = '192.168.0.102'
-        skipUploadFile = true
         uploadFile = true
     }
 
@@ -24,7 +22,6 @@ pipeline{
         stage('Upload'){
             when {
                 expression {
-                    skipUploadFile
                     !uploadFile
                 }
             }
@@ -77,8 +74,6 @@ pipeline{
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
-                                        pwd
-                                        ls
                                         cd /usr/local/jenkins-test
                                         sh build.sh
                                         sh restart.sh
