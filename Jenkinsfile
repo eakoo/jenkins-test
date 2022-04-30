@@ -11,6 +11,39 @@ pipeline{
         uploadFile = false
     }
 
+    def sshPublisher(removePrefix, sourceFiles, execCommand){
+        sshPublisher(
+            failOnError: false,
+            publishers: [
+                sshPublisherDesc(
+                    configName: serverName,
+                    transfers: [
+                        sshTransfer(
+                            cleanRemote: false,
+                            excludes: '',
+                            execCommand: execCommand,
+                            execTimeout: 120000,
+                            flatten: false,
+                            makeEmptyDirs: false,
+                            noDefaultExcludes: false,
+                            patternSeparator: '[, ]+',
+                            remoteDirectory: "",
+                            remoteDirectorySDF: false,
+                            removePrefix: removePrefix,
+                            sourceFiles: sourceFiles
+                        )
+                    ],
+                    sshRetry: [
+                        retries: 0
+                    ],
+                    usePromotionTimestamp: false,
+                    useWorkspaceInPromotion: false,
+                    verbose: true
+                )
+            ]
+        )
+    }
+
     stages{
 
         stage("Chose") {
@@ -119,39 +152,6 @@ pipeline{
                     ]
                 )
             }
-        }
-
-        def sshPublisher(removePrefix, sourceFiles, execCommand){
-            sshPublisher(
-                failOnError: false,
-                publishers: [
-                    sshPublisherDesc(
-                        configName: serverName,
-                        transfers: [
-                            sshTransfer(
-                                cleanRemote: false,
-                                excludes: '',
-                                execCommand: execCommand,
-                                execTimeout: 120000,
-                                flatten: false,
-                                makeEmptyDirs: false,
-                                noDefaultExcludes: false,
-                                patternSeparator: '[, ]+',
-                                remoteDirectory: "",
-                                remoteDirectorySDF: false,
-                                removePrefix: removePrefix,
-                                sourceFiles: sourceFiles
-                            )
-                        ],
-                        sshRetry: [
-                            retries: 0
-                        ],
-                        usePromotionTimestamp: false,
-                        useWorkspaceInPromotion: false,
-                        verbose: true
-                    )
-                ]
-            )
         }
     }
 }
