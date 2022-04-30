@@ -18,6 +18,42 @@ pipeline{
             }
         }
 
+        stage('Upload'){
+            steps{
+                sshPublisher(
+                    failOnError: false,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: serverName,
+                            transfers: [
+                                sshTransfer(
+                                    cleanRemote: false,
+                                    excludes: '',
+                                    execCommand: '''
+                                    ''',
+                                    execTimeout: 120000,
+                                    flatten: false,
+                                    makeEmptyDirs: false,
+                                    noDefaultExcludes: false,
+                                    patternSeparator: '[, ]+',
+                                    remoteDirectory: "",
+                                    remoteDirectorySDF: false,
+                                    removePrefix: "target/deploy/",
+                                    sourceFiles: "target/deploy/*"
+                                )
+                            ],
+                            sshRetry: [
+                                retries: 0
+                            ],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: true
+                        )
+                    ]
+                )
+            }
+        }
+
         stage('Deploy'){
             steps{
                 sshPublisher(
@@ -30,6 +66,8 @@ pipeline{
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
+                                        pwd
+                                        ls
                                         cd /usr/local/jenkins-test
                                         sh build.sh
                                         sh restart.sh
