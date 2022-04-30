@@ -31,6 +31,7 @@ pipeline{
 
         stage('Build'){
             steps{
+                echo "${uploadFile}"
                 sh 'mvn clean package -DskipTests'
             }
         }
