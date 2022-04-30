@@ -20,7 +20,7 @@ pipeline{
         }
 
         stage('Upload'){
-            /* when {
+            when {
                 expression {
                     !skipUploadFile
                 }
@@ -47,7 +47,7 @@ pipeline{
                                     remoteDirectory: "",
                                     remoteDirectorySDF: false,
                                     removePrefix: "target/deploy/",
-                                    sourceFiles: "target/deploy *//*"
+                                    sourceFiles: "target/deploy/*"
                                 )
                             ],
                             sshRetry: [
@@ -59,11 +59,11 @@ pipeline{
                         )
                     ]
                 )
-            } */
+            }
         }
 
         stage('Deploy'){
-            /* steps{
+            steps{
                 sshPublisher(
                     failOnError: false,
                     publishers: [
@@ -100,7 +100,7 @@ pipeline{
                         )
                     ]
                 )
-            } */
+            }
         }
 
     }
