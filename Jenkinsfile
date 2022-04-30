@@ -52,8 +52,6 @@ pipeline{
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
-                                        sh chmod +x build.sh
-                                        sh chmod +x restart.sh
                                     ''',
                                     execTimeout: 120000,
                                     flatten: false,
