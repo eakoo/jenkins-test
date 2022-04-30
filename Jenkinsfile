@@ -6,14 +6,14 @@ pipeline{
     }
 
     environment{
-        branch = 'dev'
+        branch = 'main'
         serverName = '192.168.0.102'
         skipUploadFile = false
     }
 
     stages{
 
-        stage('Build'){
+        stage('Clone'){
             steps{
                 git(changelog: true, url: "https://gitee.com/original-blackhole/jenkins-test.git", branch: branch)
             }
