@@ -8,7 +8,7 @@ pipeline{
 
     environment{
         serverName = '192.168.0.102'
-        uploadFile = 'skip'
+        uploadFile = false
     }
 
     stages{
@@ -20,15 +20,10 @@ pipeline{
                         try {
                             uploadFile = input message: 'Upload file?', ok: '确认',
                             parameters: [
-                                editableChoice(
+                                booleanParam(
                                     name: 'uploadFile',
-                                    choices: ['skip', 'upload'],
-                                    defaultValue: 'skip',
-                                    restrict: true/* ,
-                                    filterConfig: filterConfig(
-                                      prefix: true,
-                                      caseInsensitive: true,
-                                    ), */
+                                    defaultValue: false/* ,
+                                    description: '' */
                                 )
                             ]
                         } catch (exc) {
@@ -49,10 +44,9 @@ pipeline{
 
         stage('Upload'){
             when {
-                environment name: 'uploadFile', value: 'upload'
-                /* expression {
-                    uploadFile
-                } */
+                expression {
+                   uploadFile
+                }
             }
             steps{
                 sshPublisher(
