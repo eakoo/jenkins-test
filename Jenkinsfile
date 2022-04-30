@@ -120,9 +120,8 @@ pipeline{
                 )
             }
         }
-    }
 
-    def sshPublisher(removePrefix, sourceFiles, execCommand){
+        def sshPublisher(removePrefix, sourceFiles, execCommand){
             sshPublisher(
                 failOnError: false,
                 publishers: [
@@ -153,6 +152,6 @@ pipeline{
                     )
                 ]
             )
+        }
     }
-
 }
