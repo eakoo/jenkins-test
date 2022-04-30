@@ -19,7 +19,7 @@ pipeline{
                     script {
                         try {
                             uploadFile = input message: 'Upload file?', ok: '确认',
-                            parameters: [choice(name: 'uploadFile', choices: 'do not upload\upload', description: 'Upload file?')]
+                            parameters: [choice(name: 'uploadFile', choices: 'skip\upload', description: 'Upload file?')]
                         } catch (exc) {
                             echo "select default"
                         }
