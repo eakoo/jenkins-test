@@ -9,6 +9,7 @@ pipeline{
     environment{
         serverName = '192.168.0.102'
         uploadFile = false
+        uploadFile1 = true
     }
 
     stages{
@@ -38,7 +39,7 @@ pipeline{
 
         stage('Upload'){
             when {
-                environment name: 'uploadFile', value: 'true'
+                environment name: uploadFile, value: uploadFile1
                 /* expression {
                     uploadFile
                 } */
