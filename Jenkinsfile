@@ -15,15 +15,14 @@ pipeline{
 
         stage("Chose") {
             steps {
-                timeout(time: 3, unit: 'SECONDS') {
+                timeout(time: 10, unit: 'SECONDS') {
                     script {
                         try {
                             uploadFile = input message: 'Upload file?', ok: '确认',
                             parameters: [
                                 booleanParam(
                                     name: 'uploadFile',
-                                    defaultValue: false/* ,
-                                    description: '' */
+                                    defaultValue: false
                                 )
                             ]
                         } catch (exc) {
@@ -31,7 +30,6 @@ pipeline{
                         }
                     }
                 }
-                echo "${uploadFile}"
             }
         }
 
@@ -46,11 +44,11 @@ pipeline{
             when {
                 expression {
                    return  (uploadFile == true)
-//                    !uploadFile
                 }
             }
             steps{
-                sshPublisher(
+                sshPublisher("target/deploy/", "target/deploy/*", "")
+                /* sshPublisher(
                     failOnError: false,
                     publishers: [
                         sshPublisherDesc(
@@ -69,7 +67,7 @@ pipeline{
                                     remoteDirectory: "",
                                     remoteDirectorySDF: false,
                                     removePrefix: "target/deploy/",
-                                    sourceFiles: "target/deploy/*"
+                                    sourceFiles: "target/deploy *//*"
                                 )
                             ],
                             sshRetry: [
@@ -80,7 +78,7 @@ pipeline{
                             verbose: true
                         )
                     ]
-                )
+                ) */
             }
         }
 
@@ -122,7 +120,39 @@ pipeline{
                 )
             }
         }
+    }
 
+    def sshPublisher(removePrefix, sourceFiles, execCommand){
+            sshPublisher(
+                failOnError: false,
+                publishers: [
+                    sshPublisherDesc(
+                        configName: serverName,
+                        transfers: [
+                            sshTransfer(
+                                cleanRemote: false,
+                                excludes: '',
+                                execCommand: execCommand,
+                                execTimeout: 120000,
+                                flatten: false,
+                                makeEmptyDirs: false,
+                                noDefaultExcludes: false,
+                                patternSeparator: '[, ]+',
+                                remoteDirectory: "",
+                                remoteDirectorySDF: false,
+                                removePrefix: removePrefix,
+                                sourceFiles: sourceFiles
+                            )
+                        ],
+                        sshRetry: [
+                            retries: 0
+                        ],
+                        usePromotionTimestamp: false,
+                        useWorkspaceInPromotion: false,
+                        verbose: true
+                    )
+                ]
+            )
     }
 
 }
