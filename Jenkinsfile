@@ -3,7 +3,8 @@ pipeline{
     agent any
 
     tools{
-        maven 'M3'
+        maven 'M3' // M3 要与Jenkins 全局maven配置的名称一样或者改成全路径也可以
+        // maven '/usr/local/apache-maven-3.8.4'
     }
 
     environment{
@@ -22,7 +23,7 @@ pipeline{
                 timeout(time: 10, unit: 'SECONDS') {
                     script {
                         try {
-                            uploadFile = input message: 'Upload file?', ok: '确认',
+                            uploadFile = input message: 'Upload Deploy File?', ok: '确认',
                             parameters: [
                                 booleanParam(
                                     name: 'uploadFile',
@@ -39,9 +40,6 @@ pipeline{
 
         stage('Build'){
             steps{
-                echo "${uploadFile}"
-                echo "${jarName}"
-                echo "${deployPath}"
                 sh 'mvn clean package -DskipTests'
             }
         }

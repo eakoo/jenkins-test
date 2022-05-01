@@ -66,4 +66,6 @@ jenkins-test
 └─ Jenkinsfile 整体部署流程控制脚本
 ```
 
+> 部署截图
 
+![img_2.png](img_2.png)
