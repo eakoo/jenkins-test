@@ -9,11 +9,11 @@ pipeline{
     environment{
         target = 'target/'
         appName = 'jenkins-test'
-        jarName = target + appName + '-' + '1.0.0.jar'  // Publish over SSH 推送的 sourceFiles
+        jarName = ${target} + ${appName} + '-' + '1.0.0.jar'  // Publish over SSH 推送的 sourceFiles
         uploadFile = false
         serverName = '192.168.0.102'    // Publish over SSH 配置的name
-        deployPath = '/usr/local/' + appName    // Publish over SSH 配置的目录
-        shellPath = 'target/deploy/'    // mvn package 打包之后配置文件目录
+        deployPath = '/usr/local/' + ${appName}    // Publish over SSH 配置的目录
+        shellPath = ${target} + 'deploy/'    // mvn package 打包之后配置文件目录
     }
 
     stages{
@@ -41,6 +41,8 @@ pipeline{
         stage('Build'){
             steps{
                 echo "${uploadFile}"
+                echo "${jarName}"
+                echo "${deployPath}"
                 sh 'mvn clean package -DskipTests'
             }
         }
