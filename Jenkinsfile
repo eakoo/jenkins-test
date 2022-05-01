@@ -7,11 +7,13 @@ pipeline{
     }
 
     environment{
+        target = 'target/'
         appName = 'jenkins-test'
-        jarName = '${appName}-1.0.0.jar'
+        jarName = target + appName + '-' + '1.0.0.jar'  // Publish over SSH 推送的 sourceFiles
         uploadFile = false
-        serverName = '192.168.0.102'
-        deployPath = '/usr/local/${appName}'
+        serverName = '192.168.0.102'    // Publish over SSH 配置的name
+        deployPath = '/usr/local/' + appName    // Publish over SSH 配置的目录
+        shellPath = 'target/deploy/'    // mvn package 打包之后配置文件目录
     }
 
     stages{
@@ -58,7 +60,7 @@ pipeline{
                                             cleanRemote: false,
                                             excludes: '',
                                             execCommand: '''
-                                                cd ${deployPath}
+                                                cd ''' + deployPath + '''
                                                 sh build.sh
                                                 sh restart.sh
                                             ''',
@@ -69,8 +71,8 @@ pipeline{
                                             patternSeparator: '[, ]+',
                                             remoteDirectory: "",
                                             remoteDirectorySDF: false,
-                                            removePrefix: "target/",
-                                            sourceFiles: "target/${jarName}"
+                                            removePrefix: target,
+                                            sourceFiles: jarName
                                         )
                                     ],
                                     sshRetry: [
@@ -110,8 +112,8 @@ pipeline{
                                             patternSeparator: '[, ]+',
                                             remoteDirectory: "",
                                             remoteDirectorySDF: false,
-                                            removePrefix: "target/deploy/",
-                                            sourceFiles: "target/deploy/*"
+                                            removePrefix: shellPath,
+                                            sourceFiles: shellPath + '*'
                                         )
                                     ],
                                     sshRetry: [
