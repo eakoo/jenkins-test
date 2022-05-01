@@ -7,8 +7,11 @@ pipeline{
     }
 
     environment{
-        serverName = '192.168.0.102'
+        appName = 'jenkins-test'
+        jarName = '${appName}-1.0.0.jar'
         uploadFile = false
+        serverName = '192.168.0.102'
+        deployPath = '/usr/local/${appName}'
     }
 
     stages{
@@ -55,7 +58,7 @@ pipeline{
                                             cleanRemote: false,
                                             excludes: '',
                                             execCommand: '''
-                                                cd /usr/local/jenkins-test
+                                                cd ${deployPath}
                                                 sh build.sh
                                                 sh restart.sh
                                             ''',
@@ -67,7 +70,7 @@ pipeline{
                                             remoteDirectory: "",
                                             remoteDirectorySDF: false,
                                             removePrefix: "target/",
-                                            sourceFiles: "target/jenkins-test-1.0.0.jar"
+                                            sourceFiles: "target/${jarName}"
                                         )
                                     ],
                                     sshRetry: [
