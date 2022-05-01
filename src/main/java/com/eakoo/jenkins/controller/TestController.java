@@ -15,7 +15,7 @@ public class TestController {
 
     @RequestMapping("/hello")
     public String hello(){
-        return "This is a main branch";
+        return "This is a test branch";
     }
 
 }
